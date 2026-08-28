@@ -2,6 +2,7 @@
 node_modules/
 client/node_modules/
 server/node_modules/
+node_modules/
 
 # Environment variables & secrets
 .env
@@ -20,6 +21,8 @@ build/
 *.tfstate
 *.tfstate.*
 .terraform/
+.terraform.tfstate
+.terraform.tfstate.*
 .terraform.lock.hcl
 terraform.tfvars
 
