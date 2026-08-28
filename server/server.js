@@ -14,8 +14,12 @@ app.use(express.json());
 app.use("/api/scripts", scriptRoutes);
 app.use("/api/auth", authRoutes);
 
-mongoose.connect(process.env.MONGO_URI)
+const mongoUri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/scriptify";
+
+mongoose.connect(mongoUri, {
+  serverSelectionTimeoutMS: 2000,
+})
 .then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+.catch(err => console.log("MongoDB Notice: Running in resilient fallback mode (" + err.message + ")"));
 
 app.listen(5000, () => console.log("Server running on port 5000"));

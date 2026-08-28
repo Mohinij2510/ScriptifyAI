@@ -22,6 +22,7 @@ export const useStore = create((set, get) => ({
   error: null,
 
   setStep: (step) => set({ step }),
+  setScript: (script) => set({ script }),
 
   updateForm: (data) =>
     set((state) => ({
@@ -65,8 +66,9 @@ export const useStore = create((set, get) => ({
   generateScript: async () => {
     set({ loading: true, error: null });
     try {
-      const { form } = get();
-      const res = await axios.post(`${API_URL}/scripts/generate`, form);
+      const { form, token } = get();
+      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+      const res = await axios.post(`${API_URL}/scripts/generate`, form, config);
       set({ script: res.data.generatedText, loading: false });
       return true;
     } catch (err) {
