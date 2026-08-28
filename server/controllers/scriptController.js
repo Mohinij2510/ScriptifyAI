@@ -1,4 +1,4 @@
-import Script from "../models/Script.js";
+import Script from "../models/script.js";
 import { GoogleGenAI } from "@google/genai";
 import { buildHardcodedScript } from "../utils/scriptEngine.js";
 import mongoose from "mongoose";
@@ -97,7 +97,7 @@ Output Schema (Respond STRICTLY with valid JSON only):
     // Automatically save script to backend if user is authenticated
     if (userId) {
       if (isDbConnected()) {
-        await Script.create({
+        await script.create({
           userId,
           contentType,
           tone,
@@ -137,7 +137,7 @@ export const saveScript = async (req, res) => {
     const { contentType, tone, audience, topic, platform, duration, characters, generatedText } = req.body;
     
     if (isDbConnected()) {
-      const saved = await Script.create({
+      const saved = await script.create({
         userId: req.user.id,
         contentType,
         tone,
@@ -175,7 +175,7 @@ export const saveScript = async (req, res) => {
 export const getHistory = async (req, res) => {
   try {
     if (isDbConnected()) {
-      const scripts = await Script.find({ userId: req.user.id }).sort({ createdAt: -1 });
+      const scripts = await script.find({ userId: req.user.id }).sort({ createdAt: -1 });
       return res.json(scripts);
     }
 
